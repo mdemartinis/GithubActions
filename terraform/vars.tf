@@ -12,7 +12,7 @@ variable "AWS_REGION" {
   default = "us-east-1"
 }
 
-# Next, AMI and size for EC2 instances
+# Next, AMI and size for EC2 instances.
 # This AMI corresponds to Ubuntu 20.04 LTS
 variable "AMI_USEAST1" {
   default = "ami-036490d46656c4818"
