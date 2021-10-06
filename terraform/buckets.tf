@@ -1,5 +1,9 @@
-resource "aws_s3_bucket" "Test1Bucket" {
+resource "aws_s3_bucket" "test1bucket" {
   bucket = var.BUCKET_NAME
   acl    = "private"
   tags   = var.TAGS
+
+  versioning {
+    enabled = true
+  }
 }

@@ -25,7 +25,7 @@ variable "INSTANCE_TYPE" {
 # Bucket name. Random from pipeline
 
 variable "BUCKET_NAME" {
-  
+  default = "test1bucketmdemartinis"
 }
 
 # General Tags for all resources
@@ -33,7 +33,7 @@ variable "BUCKET_NAME" {
 variable "TAGS" {
   type    = map(string)
   default = {
-    name  = "Flugel"
-    owner = "InfraTeam"
+    Name  = "Flugel"
+    Owner = "InfraTeam"
   }
 }
