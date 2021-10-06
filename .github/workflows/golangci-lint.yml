@@ -7,6 +7,8 @@ jobs:
     name: lint
     runs-on: ubuntu-latest
     steps:
+      - name: check github worksapce
+        run: echo "${{github.workspace}}"
       - uses: actions/checkout@v2
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2
@@ -15,10 +17,10 @@ jobs:
           version: v1.29
 
           # Optional: working directory, useful for monorepos
-          working-directory: $GITHUB_WORKSPACE 
+          working-directory: ${{ github.workspace }}
 
           # Optional: golangci-lint command line arguments.
-          # args:
+          # args: --issues-exit-code=0
 
           # Optional: show only new issues if it's a pull request. The default value is `false`.
           # only-new-issues: true
