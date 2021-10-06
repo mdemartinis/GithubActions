@@ -1,7 +1,8 @@
 name: Terrascan Terraform linter
 
 on: 
-  push:
+  #push:
+  pull_request:
 
 jobs:
   terrascan_job:
