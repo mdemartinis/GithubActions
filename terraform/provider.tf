@@ -4,12 +4,7 @@
 # The provider "aws" requires access key and a secret key. If not directly
 # provided, these variables are read ENVIRONMENT, as AWS_ACCESS_KEY_ID and
 # AWS_SECRET_ACCESS_KEY
-#variable "AWS_ACCESS_KEY" {
 
-#}
-#variable "AWS_SECRET_KEY" {
-
-#}
 provider "aws" {
   region     = var.AWS_REGION
 }
