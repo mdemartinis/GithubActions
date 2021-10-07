@@ -1,13 +1,4 @@
-# These variables are used in the provider, in order to connect to AWS properly.
-# ACCESS and SECRET keys will be declared but not populated.
-# They will be fulfilled later with .tfvars file to keep the secrets. 
-
-#variable "AWS_ACCESS_KEY" {
-
-#}
-#variable "AWS_SECRET_KEY" {
-
-#}
+# AWS region where we will deploy resources
 variable "AWS_REGION" {
   default = "us-east-1"
 }
