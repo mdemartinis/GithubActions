@@ -7,8 +7,8 @@ name: main-workflow
 # The job will be automatically started on every push to dev branches and pull requests for the
 # main branch.
 on:
-  push:
-    branches-ignore: [main]
+  #push:
+  #  branches-ignore: [main]
   pull_request:
     branches: [main]
 
@@ -61,7 +61,7 @@ jobs:
       - name: go init and tidy
         run: |
           cd ./terratest
-          go mod init github.com/${{ env.GITHUB_REPOSITORY }}
+          go mod init github.com/${{github.repository}}
           go mod tidy
       # Finally, we execute Terratest
       - name: test with Terratest
