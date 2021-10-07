@@ -7,8 +7,8 @@ name: main-workflow
 # The job will be automatically started on every push to dev branches and pull requests for the
 # main branch.
 on:
-  #push:
-  #  branches-ignore: [main]
+  push:
+    branches-ignore: [main]
   pull_request:
     branches: [main]
 
