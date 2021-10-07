@@ -24,11 +24,12 @@ The GitHub Action workflow for CI runs on Pull Request creation. As first step, 
 
 #### Requirements and Dependencies
 
-To run the code locally, you must have a set of AWS credentials that are allowed to read and write the AWS S3 Bucket "terraform-state-mdemartinis", otherwise you will need to modifiy [backend.tf] to point to a new bucket or delete the ***backend*** definition to save the Terraform state locally. Also, it's important to update `BUCKET_NAME` passed as a parameter in Terratest, as it could already exist an S3 bucket with that name and, in that case, the solution will fail. You can find this in [test1_validate_tags_test.go]:
+To run the code locally, you must have a set of AWS credentials that are allowed to read and write the AWS S3 Bucket "terraform-state-mdemartinis", otherwise you will need to modifiy [backend.tf] to point to a new bucket or delete the ***backend*** definition to save the Terraform state locally.
+Also, it's important to update `BUCKET_NAME` passed as a parameter in Terratest, as it could already exist an S3 bucket with that name and, in that case, the solution will fail. You can find this in [test1_validate_tags_test.go]:
 ```go
-		Vars: map[string]interface{}{
-			"BUCKET_NAME": "test1bucketmdemartinis",
-		},
+Vars: map[string]interface{}{
+  "BUCKET_NAME": "test1bucketmdemartinis",
+},
 ```
 
 It is required to have Terraform and Go installed, with minimum versions as follows (based on versions used to develop the solution):
@@ -74,7 +75,7 @@ Replace `<MODULE_NAME>` with your desired module name, tipically, your repositor
 
 ### Running the GitHub Action workflow
 
-#### Requirements and Dependencies
+#### Requirements
 
 You can fork this repository or clone it and re-upload to your own repository.
 
