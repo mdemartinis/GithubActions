@@ -24,7 +24,12 @@ The GitHub Action workflow for CI runs on Pull Request creation. As first step, 
 
 #### Requirements and Dependencies
 
-To run the code locally, without any change, you must have a set of AWS credentials that are allowed to read and write the AWS S3 Bucket "terraform-state-mdemartinis", otherwise you will need to modifiy [backend.tf] to point to a new bucket or delete the ***backend*** definition to save the Terraform state locally.
+To run the code locally, you must have a set of AWS credentials that are allowed to read and write the AWS S3 Bucket "terraform-state-mdemartinis", otherwise you will need to modifiy [backend.tf] to point to a new bucket or delete the ***backend*** definition to save the Terraform state locally. Also, it's important to update `BUCKET_NAME` passed as a parameter in Terratest, as it could already exist an S3 bucket with that name and, in that case, the solution will fail. You can find this in [test1_validate_tags_test.go]:
+```go
+		Vars: map[string]interface{}{
+			"BUCKET_NAME": "test1bucketmdemartinis",
+		},
+```
 
 It is required to have Terraform and Go installed, with minimum versions as follows (based on versions used to develop the solution):
 - Terraform: 1.0.7
@@ -42,12 +47,12 @@ cd ./GithubActions/
 git checkout pipeline
 ```
 
-To execute Terraform commands, you will want to move to the Terraform folder first, and then you will be able to initialize it using:
+Although it's not needed to run the full test with Terratest, if you want to execute Terraform commands, you have to move to the `./terraform/` folder first, and then you will be able to initialize it using:
 ```bash
 terraform init
 ```
 
-After initializing Terraform, you will now be able to run any of the following commands:
+After initializing Terraform, you are now able to run any of the following commands:
 ```bash
 terraform validate
 terraform plan
@@ -55,7 +60,9 @@ terraform apply
 terraform destroy
 ```
 
-If you want to run the full test, you have to move first to the Terratest folder, initialize `go mod` and download all the dependencies. Then, execute the test. Use the following commands:
+---
+
+If you want to run the full test, you have to move first to the `./terratest/` folder, initialize `go mod` and download all the dependencies. Then, execute the test. Use the following commands:
 ```bash
 cd ./terratest/
 go mod init <MODULE_NAME>
@@ -65,9 +72,19 @@ go test
 
 Replace `<MODULE_NAME>` with your desired module name, tipically, your repository name in the form of: **github.com/mdemartinis/GithubActions**
 
-Always remember to verify that the run has completed successfully and the cloud resources have been destroyed, to not incur in undesired billing.
+### Running the GitHub Action workflow
+
+#### Requirements and Dependencies
+
+In this case, running the CI pipeline should be easier than running the solution locally, as it takes care of the dependencies automatically. Though it's required to set up two Repository Secrets, to use later as Environment Variables in the runner. These secrets are the AWS credentials and must be called as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
+
+Also,  you'll need to take care of the [backend.tf] and `BUCKET_NAME` as mentioned above in **Running the solution locally**.
+
+
+**Always remember to verify that the run has completed successfully and the cloud resources have been destroyed, to not incur in undesired billing.**
 
 
 [//]: #
 
    [backend.tf]: <https://github.com/mdemartinis/GithubActions/blob/pipeline/terraform/backend.tf>
+   [test1_validate_tags_test.go]: <https://github.com/mdemartinis/GithubActions/blob/pipeline/terratest/test1_validate_tags_test.go>
