@@ -14,9 +14,9 @@ The requirements are as follows:
 
 The solution is composed by Terraform, Go, and YML files, in order to deploy the infrastructure, test it and automate the entire process using GitHub Actions.
 
-As you may notice, the branch "main" is empty. This is because all files were committed to the branch "pipeline" and are pending to merge with a Pull Request.
+As you may notice, the branch *main* is empty. This is because all files were committed to the branch *pipeline* and are pending to merge with a Pull Request.
 
-The GitHub Action workflow for CI runs on Pull Request creation. As first step, it lints the entire code base, to verify that everything has been written following the highest standards. Then it proceeds preparing the runner to execute the test with Terratest.
+The GitHub Action workflow for CI runs on Pull Request creation. As first step, it lints the entire code base, to verify that everything has been written following the highest standards. Then it proceeds to prepare the runner to execute the test with Terratest.
 
 ---
 
@@ -26,7 +26,7 @@ The GitHub Action workflow for CI runs on Pull Request creation. As first step, 
 
 To run the code locally, without any change, you must have a set of AWS credentials that are allowed to read and write the AWS S3 Bucket "terraform-state-mdemartinis", otherwise you will need to modifiy [backend.tf] to point to a new bucket or delete the ***backend*** definition to save the Terraform state locally.
 
-It is required to have Terraform and Go installed, with minimun versions as follows (based on version used to develop the solution):
+It is required to have Terraform and Go installed, with minimum versions as follows (based on versions used to develop the solution):
 - Terraform: 1.0.7
 - Go: 1.17.1
 
@@ -36,33 +36,38 @@ Additionally, if you want to clone this repository, you will need:
 #### Clone repository
 
 You can clone this repository and select the branch *pipeline* with the following commands:
-```
+```bash
 git clone https://github.com/mdemartinis/GithubActions.git
 cd ./GithubActions/
 git checkout pipeline
 ```
 
 To execute Terraform commands, you will want to move to the Terraform folder first, and then you will be able to initialize it using:
-```
+```bash
 terraform init
 ```
 
 After initializing Terraform, you will now be able to run any of the following commands:
-```
+```bash
 terraform validate
 terraform plan
-terrafor apply
+terraform apply
 terraform destroy
 ```
 
-If you want to run the full test, you have to move first to the Terratest folder, initialize go mod and download all the dependencies. Then, execute the test. Use the following commands:
-```
+If you want to run the full test, you have to move first to the Terratest folder, initialize `go mod` and download all the dependencies. Then, execute the test. Use the following commands:
+```bash
 cd ./terratest/
 go mod init <MODULE_NAME>
 go mod tidy
 go test
 ```
 
-replace `<MODULE_NAME>` with your desired module name, tipically, your repository name in the form of: **github.com/mdemartinis/GithubActions**
+Replace `<MODULE_NAME>` with your desired module name, tipically, your repository name in the form of: **github.com/mdemartinis/GithubActions**
 
-Always remember to verify that the run has completed successfully and the cloud resoures have been destroyed, to not incur in undesired billing.
+Always remember to verify that the run has completed successfully and the cloud resources have been destroyed, to not incur in undesired billing.
+
+
+[//]: #
+
+   [backend.tf]: <https://github.com/mdemartinis/GithubActions/blob/pipeline/terraform/backend.tf>
