@@ -65,4 +65,6 @@ jobs:
           go mod tidy
       # Finally, we execute Terratest
       - name: test with Terratest
-        run: go test
+        run: |
+          cd ./terratest
+          go test
