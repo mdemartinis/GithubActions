@@ -1,5 +1,15 @@
+# These variables are used in the provider, in order to connect to AWS properly.
+# ACCESS and SECRET keys will be declared but not populated.
+# They will be fulfilled later with .tfvars file to keep the secrets. 
+# The provider "aws" requires access key and a secret key. If not directly
+# provided, these variables are read ENVIRONMENT, as AWS_ACCESS_KEY_ID and
+# AWS_SECRET_ACCESS_KEY
+#variable "AWS_ACCESS_KEY" {
+
+#}
+#variable "AWS_SECRET_KEY" {
+
+#}
 provider "aws" {
-  access_key = var.AWS_ACCESS_KEY
-  secret_key = var.AWS_SECRET_KEY
   region     = var.AWS_REGION
 }

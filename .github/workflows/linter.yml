@@ -1,56 +1,68 @@
 ---
-#################################
-#################################
-## Super Linter GitHub Actions ##
-#################################
-#################################
-name: Lint Code Base
+# This is the main CI pipeline. The purpose is to prepare the runner and test the Terraform code.
+# In order to test the Terraform code, we will connect to AWS and retrieve the tags for the
+# EC2 instance and S3 bucket. Then, those tags will be compared against a fixed set of tags.
+name: main-workflow
 
-#
-# Documentation:
-# https://help.github.com/en/articles/workflow-syntax-for-github-actions
-#
-
-#############################
-# Start the job on all push #
-#############################
+# The job will be automatically started on every push to dev branches and pull requests for the
+# main branch.
 on:
   push:
-    branches-ignore: [master, main]
-    # Remove the line above to run when pushing to master
+    branches-ignore: [main]
   pull_request:
-    branches: [master, main]
+    branches: [main]
 
-###############
-# Set the Job #
-###############
 jobs:
-  build:
+  # First of all, we run Super-Linter to verify our code is correct and set with the best standards
+  linter:
     # Name the Job
-    name: Lint Code Base
-    # Set the agent to run on
+    name: Lint Code
+    # Set the runner base
     runs-on: ubuntu-latest
-
-    ##################
-    # Load all steps #
-    ##################
     steps:
-      ##########################
-      # Checkout the code base #
-      ##########################
+      # It is required to checkout the code to be able to run linters
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
-          # Full git history is needed to get a proper list of changed files within `super-linter`
+          # Full git history is needed to get a proper list of changed files within super-linter
           fetch-depth: 0
-
-      ################################
-      # Run Linter against code base #
-      ################################
-      - name: Lint Code Base
+      - name: Run Super-Linter
         uses: github/super-linter@v4
         env:
           VALIDATE_ALL_CODEBASE: true
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          #DISABLE_ERRORS: true
+  # Then, we prepare the new runner to execute the build, test and destroy of the infrastructure as code
+  test:
+    #Name the Job
+    name: Test Terraform
+    # Set this job to depend on linter
+    needs: ['linter']
+    # Set the runner base
+    runs-on: ubuntu-latest
+    steps:
+      # First, we checkout the code to execute it
+      - name: Checkout Code
+        uses: actions/checkout@v2
+      # Then, we configure Terraform in the runner using the setup-terraform GitHub Action
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+      # Verify that Terraform is correctly installed
+      - name: Terraform version
+        run: terraform version
+      # Next, we use the GitHub Action setup-go to configure Golang in the runner
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '1.17.1'
+      # Verify that Golang is correctly installed
+      - name: go version
+        run: go version
+      # We have to prepare go to run the test in the folder, initializing and downloading dependencies
+      - name: go init and tidy
+        run: |
+          cd ./terratest
+          go mod init github.com/${{ env.GITHUB_REPOSITORY }}
+          go mod tidy
+      # Finally, we execute Terratest
+      - name: test with Terratest
+        run: go test

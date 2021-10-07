@@ -6,6 +6,7 @@ resource "aws_instance" "test1instance" {
   tags          = var.TAGS
 
   metadata_options {
+    http_endpoint = "enabled"
     http_tokens = "required"
   }
 }
