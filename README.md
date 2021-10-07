@@ -76,6 +76,8 @@ Replace `<MODULE_NAME>` with your desired module name, tipically, your repositor
 
 #### Requirements and Dependencies
 
+You can fork this repository or clone it and re-upload to your own repository.
+
 In this case, running the CI pipeline should be easier than running the solution locally, as it takes care of the dependencies automatically. Though it's required to set up two Repository Secrets, to use later as Environment Variables in the runner. These secrets are the AWS credentials and must be called as `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
 
 Also,  you'll need to take care of the [backend.tf] and `BUCKET_NAME` as mentioned above in **Running the solution locally**.
