@@ -71,7 +71,7 @@ go mod tidy
 go test
 ```
 
-Replace `<MODULE_NAME>` with your desired module name, tipically, your repository name in the form of: **github.com/mdemartinis/GithubActions**
+Replace `<MODULE_NAME>` with your desired module name. Tipically, your repository name in the form of: **github.com/mdemartinis/GithubActions**
 
 ### Running the GitHub Action workflow
 
